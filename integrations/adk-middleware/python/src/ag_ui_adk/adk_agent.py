@@ -152,7 +152,6 @@ class ADKAgent:
             session_timeout_seconds=session_timeout_seconds,  # 20 minutes default
             cleanup_interval_seconds=cleanup_interval_seconds,
             max_sessions_per_user=None,    # No limit by default
-            auto_cleanup=True              # Enable by default
         )
         
         # Tool execution tracking
