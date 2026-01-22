@@ -517,7 +517,7 @@ class ADKAgent:
                     id=Event.new_id(),
                     invocation_id=Event.new_id(),
                     timestamp=time.time(),
-                    author='model',
+                    author=self._adk_agent.name,  # Use actual agent name, not 'model'
                     content=synthetic_content
                 )
 
