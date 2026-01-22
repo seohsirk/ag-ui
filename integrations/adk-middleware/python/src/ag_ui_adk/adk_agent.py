@@ -514,6 +514,8 @@ class ADKAgent:
                     role='model'
                 )
                 synthetic_event = Event(
+                    id=Event.new_id(),
+                    invocation_id=Event.new_id(),
                     timestamp=time.time(),
                     author='model',
                     content=synthetic_content
