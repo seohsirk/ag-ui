@@ -481,9 +481,15 @@ class ADKAgent:
 
         events = getattr(session, 'events', []) or []
 
-        # Build set of existing FunctionCall IDs
+        # Build set of existing FunctionCall IDs and find the last invocation_id
         existing_call_ids = set()
+        last_invocation_id = None
         for evt in events:
+            # Track the last invocation_id from session events
+            evt_invocation_id = getattr(evt, 'invocation_id', None)
+            if evt_invocation_id:
+                last_invocation_id = evt_invocation_id
+
             evt_content = getattr(evt, 'content', None)
             if evt_content:
                 evt_parts = getattr(evt_content, 'parts', None) or []
@@ -513,11 +519,13 @@ class ADKAgent:
                     parts=[synthetic_function_call],
                     role='model'
                 )
+                # Use the last invocation_id from session for semantic consistency,
+                # or generate a new one if no events exist
                 synthetic_event = Event(
                     id=Event.new_id(),
-                    invocation_id=Event.new_id(),
+                    invocation_id=last_invocation_id or Event.new_id(),
                     timestamp=time.time(),
-                    author=self._adk_agent.name,  # Use actual agent name, not 'model'
+                    author=self._adk_agent.name,
                     content=synthetic_content
                 )
 
